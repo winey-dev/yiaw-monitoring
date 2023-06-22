@@ -14,7 +14,7 @@ const App = () => {
     setIsNavOpen(!isNavOpen);
   };
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     // 쿠키나 세션에서 Authorization 정보를 확인하여 로그인 상태를 설정하는 로직을 수행합니다.
     const checkAuthorization = () => {
