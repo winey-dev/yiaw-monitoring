@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { Page, PageHeader, PageSidebar  } from '@patternfly/react-core';
+import Header from './layouts/Header';
+import Menu from './layouts/Menu';
+import MainPage from './pages/MainPage';
+import LoginPage from './pages/LoginPage';
+
+const App = () => {
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
+  const handleNavToggle = () => {
+    setIsNavOpen(!isNavOpen);
+  };
+
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  useEffect(() => {
+    // 쿠키나 세션에서 Authorization 정보를 확인하여 로그인 상태를 설정하는 로직을 수행합니다.
+    const checkAuthorization = () => {
+
+      return true;
+    };
+
+    const loggedIn = checkAuthorization();
+    setIsLoggedIn(loggedIn);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      {isLoggedIn ? (
+        <Page header={<Header isNavOpen={isNavOpen} onNavToggle={handleNavToggle} />} sidebar={<Menu isNavOpen={isNavOpen} />}>
+          <Routes>
+            <Route path="/main" element={<MainPage />} />
+            <Route path="/" element={<Navigate to="/main" replace />} />
+          </Routes>
+        </Page>
+      ) : (
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/" element={<Navigate to="/login" replace />} />
+        </Routes>
+      )}
+    </Router>
   );
-}
+};
 
 export default App;

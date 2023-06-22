@@ -1,3 +1,9 @@
+#root,
+#ws-router,
+#ws-page {
+  height: 100vh;
+}
+
 .App {
   text-align: center;
 }
